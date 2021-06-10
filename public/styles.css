@@ -1,0 +1,131 @@
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    margin: 0;
+}
+
+section {
+    width: 100%;
+}
+
+button {
+    border: none;
+    background-color: #FF4B2B;
+    color: #FFFFFF;
+	font-size: 12px;
+	font-weight: bold;
+    border-radius: 15px;
+    height: 30px;
+    cursor: pointer;
+}
+
+input, select {
+    background-color: rgb(245, 245, 245);
+    border: none;
+    height: 30px;
+    border-radius: 1px;
+    margin-bottom: 10px;
+}
+
+input, select:focus {
+    outline: none;
+}
+
+.set-up {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: rgb(80, 80, 80);
+    padding: 5% 10%;
+    box-sizing: border-box;
+}
+
+.add-friend {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.add-friend > input {
+    margin: 0;
+    padding-left: 15px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    box-sizing: border-box;
+}
+
+.add-friend > button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    padding: 0px 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+form > button {
+    width: 60%;
+    align-self: center;
+}
+form > label {
+    font-size: .9em;
+}
+
+.resume {
+    background: linear-gradient(to right, #FF4B2B, #FF416C);
+    color: white;
+    /* display: flex;
+    justify-content: space-around;
+    align-items: baseline; */
+}
+
+ul {
+    padding: 0;
+}
+
+.cards {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+}
+
+.card {
+    margin: 10px;
+    border: 1px solid rgb(245, 245, 245);
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.user-name {
+    padding-left: 5px;
+    background-color: rgb(245, 245, 245);
+    font-weight: 700;
+    color: #FF4B2B;
+}
+.user-info {
+    padding: 5px;
+}
+
+p {
+    margin: 0;
+    font-weight: lighter;
+    font-size: .9em;
+}
+
+.movements {
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.movements > li {
+    font-size: .9em;
+    font-weight: lighter;
+    border-bottom: 1px solid rgb(245, 245, 245);
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 5px;
+}

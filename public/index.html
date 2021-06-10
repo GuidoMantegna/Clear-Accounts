@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap" rel="stylesheet">
+    <title>Clear Accounts</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <section class="set-up">
+        <div class="add-friend">
+                <input type="text" placeholder="Add a new friend">
+                <button>ADD</button>
+        </div>
+        <form >
+            <label for="type">Type</label>
+            <select name="type" id="type">
+                <option value="buys">buys</option>
+                <option value="return">return</option>
+            </select>
+            <label for="from">From</label>
+            <select name="from" id="from" value="pick one">
+                <option selected>me</option>
+            </select>
+            <label for="details">Details</label>
+            <input type="text" placeholder="Describe the concept">
+            <label for="amount">Amount</label>
+            <input type="number">
+            <button>ADD</button>
+        </form>
+    </section>
+
+    <section class="resume">
+
+        <ul class="cards">
+            <li class="card">
+                <p class="user-name">Me</p>
+                <div class="user-info">
+                    <p>Contribution $ <span class="contribution">0</span></p>
+                    <p>Debe $ <span class="debe"></span>0</p>
+                    <p>Le deben $ <span class="le-deben">0</span></p>
+                </div>
+            </li>
+            <li class="card">
+                <p class="user-name">Nadia</p>
+                <div class="user-info">
+                    <p>Contribution $ <span class="contribution">0</span></p>
+                    <p>Debe $ <span class="debe"></span>0</p>
+                    <p>Le deben $ <span class="le-deben">0</span></p>
+                </div>
+            </li>
+        </ul>
+        <ul class="movements">
+            <li>Guido buys bread for $2.35</li>
+            <li>Nadia returns $2.35 for bread</li>
+        </ul>
+
+    </section>
+    <script type="module" src="app.js"></script>
+</body>
+</html>
