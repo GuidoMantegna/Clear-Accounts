@@ -12,10 +12,10 @@
 <body>
     <section class="set-up">
         <div class="add-friend">
-                <input type="text" placeholder="Add a new friend">
-                <button>ADD</button>
+            <input type="text" placeholder="Add a new friend">
+            <button>ADD</button>
         </div>
-        <form >
+        <form>
             <label for="type">Type</label>
             <select name="type" id="type">
                 <option value="buys">buys</option>
@@ -26,18 +26,34 @@
                 <option selected>me</option>
             </select>
             <label for="details">Details</label>
-            <input type="text" placeholder="Describe the concept">
+            <input type="text" id="details" placeholder="Describe the concept">
             <label for="amount">Amount</label>
-            <input type="number">
+            <input type="number" id="amount">
             <button>ADD</button>
         </form>
     </section>
 
     <section class="resume">
-
+        <!-- <h2 class="resume-title">Movements $<span>0</span></h2> -->
         <ul class="cards">
             <li class="card">
                 <p class="user-name">Me</p>
+                <div class="user-info">
+                    <p>Contribution $ <span class="contribution">0</span></p>
+                    <p>Debe $ <span class="debe"></span>0</p>
+                    <p>Le deben $ <span class="le-deben">0</span></p>
+                </div>
+            </li>
+            <li class="card">
+                <p class="user-name">Nadia</p>
+                <div class="user-info">
+                    <p>Contribution $ <span class="contribution">0</span></p>
+                    <p>Debe $ <span class="debe"></span>0</p>
+                    <p>Le deben $ <span class="le-deben">0</span></p>
+                </div>
+            </li>
+            <li class="card">
+                <p class="user-name">Nadia</p>
                 <div class="user-info">
                     <p>Contribution $ <span class="contribution">0</span></p>
                     <p>Debe $ <span class="debe"></span>0</p>
