@@ -15,7 +15,6 @@ const users: UserFormatter[] = [new Users('me')];
 let totalPurchases: number = 0;
 let each: number;
 
-
 const renderUsersCards = () => {
 
     let HTMLTemplate: string = '';
@@ -37,7 +36,7 @@ const renderUsersCards = () => {
 }
 const setDebts = (user: UserFormatter) => {
     let totalContribution: number = user.totalContribution();
-    each = totalPurchases/users.length
+    // each = totalPurchases/users.length
 
     if(totalContribution > each) {
         user.leDeben = totalContribution-each;
@@ -47,27 +46,29 @@ const setDebts = (user: UserFormatter) => {
         user.leDeben = 0;
     }
 }
-
-
+const calcTotalPurchases = (a?:number) => {
+    totalPurchases = 0;
+    for (let index = 0; index < users.length; index++) {
+        totalPurchases += users[index].totalContribution()
+    }
+    if(a) {totalPurchases += a}
+    each = totalPurchases/users.length
+    console.log({totalPurchases, each})
+}
 
 $newUserBTN.addEventListener('click', (e: Event) => {
     if($newUserInput.value !== "") {
         let user = new Users($newUserInput.value)
         users.push(user)
 
+        calcTotalPurchases()
         users.forEach(user => setDebts(user))
 
-        let createUser = document.createElement("option");
-        createUser.innerText = $newUserInput.value;
-        $from.appendChild(createUser)
-
+        let newUserOption = document.createElement("option");
+        newUserOption.innerText = $newUserInput.value;
+        $from.appendChild(newUserOption)
 
         renderUsersCards()
-        // let card = new Card($newUserInput.value, 0, 0, 0);
-        // $cards.appendChild(card.render())
-
-        console.log(users)
-
     }
 })
 
@@ -89,8 +90,9 @@ $form.addEventListener('submit', (e: Event) => {
         doc = new Buyings(...values);
         movements.push(doc);
 
-        totalPurchases += $amount.valueAsNumber
-
+        // totalPurchases += $amount.valueAsNumber
+        calcTotalPurchases($amount.valueAsNumber)
+        
         users.forEach(user => {
             if($from.value === user.name) {
                 user.contribution.push({detail: $details.value, amount: $amount.valueAsNumber});
@@ -100,6 +102,20 @@ $form.addEventListener('submit', (e: Event) => {
     } else {
         doc = new Payment(...values);
         payments.push(doc);
+
+        // totalPurchases -= $amount.valueAsNumber
+        users.forEach(user => {
+            if(user.name === $from.value) {
+                user.debe -= $amount.valueAsNumber;
+                user.contribution.push({detail: $details.value, amount: $amount.valueAsNumber})
+            }
+            if(user.name === $to.value) {
+                user.leDeben -= $amount.valueAsNumber;
+                user.contribution.push({detail: $details.value, amount: -$amount.valueAsNumber})
+            }
+
+        })
+        calcTotalPurchases()
     }
 
     let lastMovement: number = movements.length - 1;
