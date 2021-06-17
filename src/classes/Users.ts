@@ -1,20 +1,26 @@
 import { UserFormatter } from "../interfaces/UserFormatter.js"
 
 type PaymentsFormatter = {
-    name: string,
+    detail: string,
     amount: number,
 }
 
 export class Users implements UserFormatter{
     constructor(
         public name: string,
-        public buyings: number = 0,
-        public payments?: PaymentsFormatter[],
+        public debe: number = 0,
+        public leDeben: number = 0,
+        public contribution: PaymentsFormatter[] = [],
     ) {}
 
-    // totalBuyings(){
-    //     return this.buyings.reduce((acc, curr) => acc + curr)
-    // }
+    totalContribution(){
+        let totalContribution: number = 0;
+
+        this.contribution.forEach(item => {
+            totalContribution += item.amount
+        })
+        return totalContribution
+    }
 
     // totalPayments(){
     //     let sortPayments = this.payments.sort(function (a, b) {

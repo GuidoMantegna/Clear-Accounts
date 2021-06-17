@@ -1,7 +1,15 @@
 export class Users {
-    constructor(name, buyings = 0, payments) {
+    constructor(name, debe = 0, leDeben = 0, contribution = []) {
         this.name = name;
-        this.buyings = buyings;
-        this.payments = payments;
+        this.debe = debe;
+        this.leDeben = leDeben;
+        this.contribution = contribution;
+    }
+    totalContribution() {
+        let totalContribution = 0;
+        this.contribution.forEach(item => {
+            totalContribution += item.amount;
+        });
+        return totalContribution;
     }
 }
