@@ -16,22 +16,37 @@ let totalPurchases: number = 0;
 let each: number;
 
 
-// const renderUsersCards = (name: string, debe: number, leDeben: number) => {
-//     let HTMLTemplate = 
-//         `   <p class="user-name">${name}</p>
-//             <div class="user-info">
-//                 <p>Contribution $ <span class="contribution">${this.contribution}</span></p>
-//                 <p>Debe $ <span class="debe"></span>${this.debe}</p>
-//                 <p>Le deben $ <span class="le-deben">${this.leDeben}</span></p>
-//             </div>
-//         `;
+const renderUsersCards = () => {
 
-//         let newListItem = document.createElement('li');
-//         newListItem.classList.add('card')
-//         newListItem.innerHTML = HTMLTemplate;
+    let HTMLTemplate: string = '';
 
-        
-// }
+    users.forEach(user => {
+        HTMLTemplate += 
+        `   <li class="card">
+            <p class="user-name">${user.name}</p>
+            <div class="user-info">
+                <p>Contribution $ <span class="contribution">${user.totalContribution()}</span></p>
+                <p>Debe $ <span class="debe"></span>${user.debe}</p>
+                <p>Le deben $ <span class="le-deben">${user.leDeben}</span></p>
+            </div>
+            <li>
+        `
+    })
+    
+    $cards.innerHTML = HTMLTemplate;        
+}
+const setDebts = (user: UserFormatter) => {
+    let totalContribution: number = user.totalContribution();
+    each = totalPurchases/users.length
+
+    if(totalContribution > each) {
+        user.leDeben = totalContribution-each;
+        user.debe = 0;
+    } else {
+        user.debe = each-totalContribution;
+        user.leDeben = 0;
+    }
+}
 
 
 
@@ -40,13 +55,18 @@ $newUserBTN.addEventListener('click', (e: Event) => {
         let user = new Users($newUserInput.value)
         users.push(user)
 
+        users.forEach(user => setDebts(user))
+
         let createUser = document.createElement("option");
         createUser.innerText = $newUserInput.value;
         $from.appendChild(createUser)
 
-        let card = new Card($newUserInput.value, 0, 0, 0);
-        $cards.appendChild(card.render())
 
+        renderUsersCards()
+        // let card = new Card($newUserInput.value, 0, 0, 0);
+        // $cards.appendChild(card.render())
+
+        console.log(users)
 
     }
 })
@@ -57,6 +77,7 @@ const movements: MovementFormatter[] = [];
 const payments: MovementFormatter[] = [];
 
 let totalMovements: number = 0;
+
 
 $form.addEventListener('submit', (e: Event) => {
     e.preventDefault();
@@ -69,31 +90,12 @@ $form.addEventListener('submit', (e: Event) => {
         movements.push(doc);
 
         totalPurchases += $amount.valueAsNumber
-        each = totalPurchases/users.length
 
         users.forEach(user => {
-
             if($from.value === user.name) {
                 user.contribution.push({detail: $details.value, amount: $amount.valueAsNumber});
-                let totalContribution = user.totalContribution();
-
-                if(totalContribution > each) {
-                    user.leDeben = totalContribution-each;
-                    user.debe = 0;
-                } else {
-                    user.debe = each-totalContribution;
-                    user.leDeben = 0;
-                }
-            } else {
-                let totalContribution = user.totalContribution();
-                if(totalContribution > each) {
-                    user.leDeben = totalContribution-each;
-                    user.debe = 0;
-                } else {
-                    user.debe = each-totalContribution;
-                    user.leDeben = 0;
-                }
-            }
+            };
+            setDebts(user)
         });
     } else {
         doc = new Payment(...values);
@@ -104,7 +106,7 @@ $form.addEventListener('submit', (e: Event) => {
     totalMovements += movements[lastMovement].amount;
 
     
-
+    renderUsersCards()
     console.log(users)
 
 })
