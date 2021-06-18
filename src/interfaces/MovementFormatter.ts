@@ -1,6 +1,7 @@
 export interface MovementFormatter {
-    friend: string,
+    from: string,
+    to?: string,
     details: string,
     amount: number,
-    printDetail: Function
+    render(type: string): void,
 }

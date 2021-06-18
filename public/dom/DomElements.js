@@ -11,4 +11,6 @@ export const DomElements = {
     $amount: document.querySelector('#amount'),
     // Cards
     $cards: document.querySelector('.cards'),
+    // Movements List
+    $movements: document.querySelector('.movements'),
 };

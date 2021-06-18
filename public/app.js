@@ -1,11 +1,10 @@
 // DOM Elements
 import { DomElements } from "./dom/DomElements.js";
-const { $form, $type, $from, $details, $amount, $newUserInput, $newUserBTN, $cards, $to } = DomElements;
+const { $form, $type, $from, $details, $amount, $newUserInput, $newUserBTN, $cards, $to, $movements } = DomElements;
 // Classes Imports
-import { Buyings } from "./classes/Buyings.js";
-import { Payment } from "./classes/Payment.js";
+import { Movements } from "./classes/Movement.js";
 import { Users } from "./classes/Users.js";
-const users = [new Users('me')];
+const users = [new Users('Me')];
 let totalPurchases = 0;
 let each;
 const renderUsersCards = () => {
@@ -26,7 +25,6 @@ const renderUsersCards = () => {
 };
 const setDebts = (user) => {
     let totalContribution = user.totalContribution();
-    // each = totalPurchases/users.length
     if (totalContribution > each) {
         user.leDeben = totalContribution - each;
         user.debe = 0;
@@ -45,32 +43,43 @@ const calcTotalPurchases = (a) => {
         totalPurchases += a;
     }
     each = totalPurchases / users.length;
-    console.log({ totalPurchases, each });
+};
+const addNewUserOption = (userName) => {
+    let fromOption = document.createElement("option");
+    fromOption.innerText = userName;
+    $from.appendChild(fromOption);
+    let toOption = document.createElement("option");
+    toOption.innerText = userName;
+    $to.appendChild(toOption);
+};
+const setReturns = () => {
+    users.forEach(user => {
+        if (user.name === $from.value) {
+            user.debe -= $amount.valueAsNumber;
+            user.contribution.push({ detail: $details.value, amount: $amount.valueAsNumber });
+        }
+        if (user.name === $to.value) {
+            user.leDeben -= $amount.valueAsNumber;
+            user.contribution.push({ detail: $details.value, amount: -$amount.valueAsNumber });
+        }
+    });
 };
 $newUserBTN.addEventListener('click', (e) => {
     if ($newUserInput.value !== "") {
         let user = new Users($newUserInput.value);
         users.push(user);
+        addNewUserOption($newUserInput.value);
+        $newUserInput.value = '';
         calcTotalPurchases();
         users.forEach(user => setDebts(user));
-        let newUserOption = document.createElement("option");
-        newUserOption.innerText = $newUserInput.value;
-        $from.appendChild(newUserOption);
         renderUsersCards();
     }
 });
 $type.addEventListener('change', () => $type.value === "buys" ? $to.disabled = true : $to.disabled = false);
-const movements = [];
-const payments = [];
-let totalMovements = 0;
 $form.addEventListener('submit', (e) => {
     e.preventDefault();
-    let doc;
-    let values = [$from.value, $details.value, $amount.valueAsNumber];
+    let values = [$from.value, $details.value, $amount.valueAsNumber, $to.value];
     if ($type.value === "buys") {
-        doc = new Buyings(...values);
-        movements.push(doc);
-        // totalPurchases += $amount.valueAsNumber
         calcTotalPurchases($amount.valueAsNumber);
         users.forEach(user => {
             if ($from.value === user.name) {
@@ -79,25 +88,22 @@ $form.addEventListener('submit', (e) => {
             ;
             setDebts(user);
         });
+        let movement = new Movements(...values);
+        movement.render("buys");
     }
     else {
-        doc = new Payment(...values);
-        payments.push(doc);
-        // totalPurchases -= $amount.valueAsNumber
-        users.forEach(user => {
-            if (user.name === $from.value) {
-                user.debe -= $amount.valueAsNumber;
-                user.contribution.push({ detail: $details.value, amount: $amount.valueAsNumber });
-            }
-            if (user.name === $to.value) {
-                user.leDeben -= $amount.valueAsNumber;
-                user.contribution.push({ detail: $details.value, amount: -$amount.valueAsNumber });
-            }
-        });
-        calcTotalPurchases();
+        if ($from.value !== $to.value && $amount.value !== null) {
+            setReturns();
+            let movement = new Movements(...values);
+            movement.render("return");
+            calcTotalPurchases();
+            $from.style.backgroundColor = "rgb(245, 245, 245)";
+            $to.style.backgroundColor = "rgb(245, 245, 245)";
+        }
+        else {
+            $from.style.backgroundColor = "tomato";
+            $to.style.backgroundColor = "tomato";
+        }
     }
-    let lastMovement = movements.length - 1;
-    totalMovements += movements[lastMovement].amount;
     renderUsersCards();
-    console.log(users);
 });

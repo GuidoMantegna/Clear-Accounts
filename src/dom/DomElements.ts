@@ -10,5 +10,7 @@ export const DomElements = {
     $details : document.querySelector('#details') as HTMLInputElement,
     $amount : document.querySelector('#amount') as HTMLInputElement,
     // Cards
-    $cards: document.querySelector('.cards') as HTMLInputElement,
+    $cards: document.querySelector('.cards') as HTMLUListElement,
+    // Movements List
+    $movements: document.querySelector('.movements') as HTMLUListElement,
 }
