@@ -30,9 +30,9 @@
                 <option selected>Me</option>
             </select>
             <label for="details">Details</label>
-            <input type="text" id="details" placeholder="Describe the concept">
+            <input type="text" id="details" placeholder="Describe the concept" required>
             <label for="amount">Amount</label>
-            <input type="number" id="amount">
+            <input type="number" id="amount" placeholder="0,00" step="any" required>
             <button>ADD</button>
         </form>
     </section>
@@ -43,8 +43,8 @@
                 <p class="user-name">Me</p>
                 <div class="user-info">
                     <p>Contribution $ <span class="contribution">0</span></p>
-                    <p>Debe $ <span class="debe"></span>0</p>
-                    <p>Le deben $ <span class="le-deben">0</span></p>
+                    <p>Owes $ <span class="owes">0</span></p>
+                    <p>Is owed $ <span class="is-owed">0</span></p>
                 </div>
             </li>
         </ul>

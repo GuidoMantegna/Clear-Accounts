@@ -1,6 +1,6 @@
 // DOM Elements
 import { DomElements } from "./dom/DomElements.js"
-const { $form, $type, $from, $details, $amount, $newUserInput, $newUserBTN, $cards, $to, $movements } = DomElements;
+const { $form, $type, $from, $details, $amount, $newUserInput, $newUserBTN, $cards, $to, $inputs, $formSelects } = DomElements;
 // Classes Imports
 import { Movements } from "./classes/Movement.js";
 import { Users } from "./classes/Users.js";
@@ -12,7 +12,7 @@ const users: UserFormatter[] = [new Users('Me')];
 let totalPurchases: number = 0;
 let each: number;
 
-const renderUsersCards: Function = () => {
+const renderUsersCards: () => void = () => {
 
     let HTMLTemplate: string = '';
 
@@ -21,9 +21,9 @@ const renderUsersCards: Function = () => {
         `   <li class="card">
             <p class="user-name">${user.name}</p>
             <div class="user-info">
-                <p>Contribution $ <span class="contribution">${user.totalContribution()}</span></p>
-                <p>Debe $ <span class="debe"></span>${user.debe}</p>
-                <p>Le deben $ <span class="le-deben">${user.leDeben}</span></p>
+                <p>Contribution $ <span>${(user.totalContribution()).toFixed(2)}</span></p>
+                <p>Owes $ <span>${(user.debe).toFixed(2)}</span></p>
+                <p>Is owed $ <span>${(user.leDeben).toFixed(2)}</span></p>
             </div>
             <li>
         `
@@ -86,7 +86,16 @@ $newUserBTN.addEventListener('click', (e: Event) => {
     }
 })
 
-$type.addEventListener('change', () => $type.value === "buys" ? $to.disabled = true : $to.disabled = false)
+$formSelects.forEach(select => select.addEventListener('change', (e: Event) => {    
+    if (e.target === $type) {
+        $type.value === "buys" ? $to.disabled = true : $to.disabled = false    
+    } else {
+        if($from.value !== $to.value) {
+            $from.classList.remove('error-select');
+            $to.classList.remove('error-select');
+        }
+    }
+}))
 
 $form.addEventListener('submit', (e: Event) => {
     e.preventDefault();
@@ -106,8 +115,10 @@ $form.addEventListener('submit', (e: Event) => {
         let movement = new Movements(...values);
         movement.render("buys");
 
+        $inputs.forEach(input => input.value = "")
+
     } else {
-        if($from.value !== $to.value && $amount.value !== null) {
+        if($from.value !== $to.value) {
             setReturns() 
 
             let movement = new Movements(...values);
@@ -115,13 +126,12 @@ $form.addEventListener('submit', (e: Event) => {
     
             calcTotalPurchases();
 
-            $from.style.backgroundColor = "rgb(245, 245, 245)";
-            $to.style.backgroundColor = "rgb(245, 245, 245)";
-        } else {
-            $from.style.backgroundColor = "tomato";
-            $to.style.backgroundColor = "tomato";
+            $inputs.forEach(input => input.value = "")
         }
-
+        else {
+            $from.classList.add('error-select');
+            $to.classList.add('error-select');
+        }
     }
     
     renderUsersCards()

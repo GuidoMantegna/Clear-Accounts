@@ -13,4 +13,7 @@ export const DomElements = {
     $cards: document.querySelector('.cards'),
     // Movements List
     $movements: document.querySelector('.movements'),
+    // All inputs/selects
+    $inputs: document.querySelectorAll('input'),
+    $formSelects: document.querySelectorAll('form > select'),
 };

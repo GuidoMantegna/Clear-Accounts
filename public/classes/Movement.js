@@ -14,7 +14,7 @@ export class Movements {
         }
         else {
             let newItemList = document.createElement('li');
-            newItemList.innerText = `${this.from} return $${this.amount} to ${this.to} for ${this.details}`;
+            newItemList.innerText = `${this.from} returns $${this.amount} to ${this.to} for ${this.details}`;
             DomElements.$movements.appendChild(newItemList);
         }
         let $noMovements = document.querySelector('.no-movements');

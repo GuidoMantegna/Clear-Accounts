@@ -1,6 +1,6 @@
 // DOM Elements
 import { DomElements } from "./dom/DomElements.js";
-const { $form, $type, $from, $details, $amount, $newUserInput, $newUserBTN, $cards, $to, $movements } = DomElements;
+const { $form, $type, $from, $details, $amount, $newUserInput, $newUserBTN, $cards, $to, $inputs, $formSelects } = DomElements;
 // Classes Imports
 import { Movements } from "./classes/Movement.js";
 import { Users } from "./classes/Users.js";
@@ -14,9 +14,9 @@ const renderUsersCards = () => {
             `   <li class="card">
             <p class="user-name">${user.name}</p>
             <div class="user-info">
-                <p>Contribution $ <span class="contribution">${user.totalContribution()}</span></p>
-                <p>Debe $ <span class="debe"></span>${user.debe}</p>
-                <p>Le deben $ <span class="le-deben">${user.leDeben}</span></p>
+                <p>Contribution $ <span>${(user.totalContribution()).toFixed(2)}</span></p>
+                <p>Owes $ <span>${(user.debe).toFixed(2)}</span></p>
+                <p>Is owed $ <span>${(user.leDeben).toFixed(2)}</span></p>
             </div>
             <li>
         `;
@@ -75,7 +75,17 @@ $newUserBTN.addEventListener('click', (e) => {
         renderUsersCards();
     }
 });
-$type.addEventListener('change', () => $type.value === "buys" ? $to.disabled = true : $to.disabled = false);
+$formSelects.forEach(select => select.addEventListener('change', (e) => {
+    if (e.target === $type) {
+        $type.value === "buys" ? $to.disabled = true : $to.disabled = false;
+    }
+    else {
+        if ($from.value !== $to.value) {
+            $from.classList.remove('error-select');
+            $to.classList.remove('error-select');
+        }
+    }
+}));
 $form.addEventListener('submit', (e) => {
     e.preventDefault();
     let values = [$from.value, $details.value, $amount.valueAsNumber, $to.value];
@@ -90,19 +100,19 @@ $form.addEventListener('submit', (e) => {
         });
         let movement = new Movements(...values);
         movement.render("buys");
+        $inputs.forEach(input => input.value = "");
     }
     else {
-        if ($from.value !== $to.value && $amount.value !== null) {
+        if ($from.value !== $to.value) {
             setReturns();
             let movement = new Movements(...values);
             movement.render("return");
             calcTotalPurchases();
-            $from.style.backgroundColor = "rgb(245, 245, 245)";
-            $to.style.backgroundColor = "rgb(245, 245, 245)";
+            $inputs.forEach(input => input.value = "");
         }
         else {
-            $from.style.backgroundColor = "tomato";
-            $to.style.backgroundColor = "tomato";
+            $from.classList.add('error-select');
+            $to.classList.add('error-select');
         }
     }
     renderUsersCards();
