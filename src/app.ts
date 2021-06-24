@@ -8,7 +8,7 @@ import { Users } from "./classes/Users.js";
 import { UserFormatter } from "./interfaces/UserFormatter.js";
 
 const users: UserFormatter[] = [new Users('Me')];
-
+console.log(users)
 let totalPurchases: number = 0;
 let each: number;
 

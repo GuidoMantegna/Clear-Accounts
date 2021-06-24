@@ -5,6 +5,7 @@ const { $form, $type, $from, $details, $amount, $newUserInput, $newUserBTN, $car
 import { Movements } from "./classes/Movement.js";
 import { Users } from "./classes/Users.js";
 const users = [new Users('Me')];
+console.log(users);
 let totalPurchases = 0;
 let each;
 const renderUsersCards = () => {
