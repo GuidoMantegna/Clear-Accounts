@@ -1,5 +1,5 @@
 # Clear Accounts 
-🌎 [ClearAccounts.com](https://guidomantegna.github.io/clear-accounts/)
+🌎 [ClearAccounts.com](https://guidomantegna.github.io/Clear-Accounts/)
 
 ### :muscle: A simple app built with TypeScript to make accounts with friends easier. 
 This app helps you to calculate and manage the expenses that you and your friends shared.
